@@ -1,0 +1,138 @@
+{
+  "entities": {
+    "user": {
+      "title": "User",
+      "description": "Commander profile registered in Galaxia",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Firebase Auth user ID"
+        },
+        "email": {
+          "type": "string",
+          "description": "User email address"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Commander callsign or name"
+        },
+        "title": {
+          "type": "string",
+          "description": "Commander rank or title"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Creation timestamp ISO"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Last update timestamp ISO"
+        }
+      },
+      "required": ["id", "email", "displayName"]
+    },
+    "savedGame": {
+      "title": "SavedGame",
+      "description": "Sealed serialized game state block",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique save identifier"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Owner commander user ID"
+        },
+        "saveName": {
+          "type": "string",
+          "description": "Custom or procedural save name"
+        },
+        "turn": {
+          "type": "number",
+          "description": "Current turn number in the 4X simulation"
+        },
+        "eraId": {
+          "type": "string",
+          "description": "Narrative Era identifier"
+        },
+        "difficulty": {
+          "type": "string",
+          "description": "Simulation difficulty: Normale, Tactique, Hardcore"
+        },
+        "leaderName": {
+          "type": "string",
+          "description": "LEADER commander name"
+        },
+        "stateJson": {
+          "type": "string",
+          "description": "Sealed <STATE_JSON> complete serialized payload"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Creation timestamp"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Last update timestamp"
+        }
+      },
+      "required": ["id", "userId", "saveName", "turn", "stateJson"]
+    },
+    "leaderboardEntry": {
+      "title": "LeaderboardEntry",
+      "description": "Galactic record entry for completed or milestone runs",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique record identifier"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Commander Auth user ID"
+        },
+        "commanderName": {
+          "type": "string",
+          "description": "Commander name"
+        },
+        "turnsSurvived": {
+          "type": "number",
+          "description": "Total turns survived"
+        },
+        "eraTitle": {
+          "type": "string",
+          "description": "Title of the Narrative Era"
+        },
+        "score": {
+          "type": "number",
+          "description": "Calculated score based on population, tech, and fleet"
+        },
+        "status": {
+          "type": "string",
+          "description": "Victory or Defeat status"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp of the run"
+        }
+      },
+      "required": ["id", "userId", "commanderName", "turnsSurvived", "score"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "user",
+      "description": "User profile collection"
+    },
+    "/savedGames/{saveId}": {
+      "schema": "savedGame",
+      "description": "Saved game states and sealed payloads"
+    },
+    "/leaderboard/{entryId}": {
+      "schema": "leaderboardEntry",
+      "description": "Public galactic leaderboard collection"
+    }
+  }
+}

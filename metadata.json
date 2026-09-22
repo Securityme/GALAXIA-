@@ -1,0 +1,6 @@
+{
+  "name": "GALAXIA",
+  "description": "Jeu de stratégie 4X, d'exploration et de survie spatiale avec architecture Dual-Window, Maître de Jeu procédural et persistance galactique.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

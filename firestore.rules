@@ -1,0 +1,76 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default deny all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Users Collection
+    match /users/{userId} {
+      allow get: if isOwner(userId);
+      allow list: if false;
+      allow create: if isOwner(userId)
+        && isValidId(userId)
+        && request.resource.data.id == userId
+        && request.resource.data.email is string
+        && request.resource.data.email.size() <= 256
+        && request.resource.data.displayName is string
+        && request.resource.data.displayName.size() <= 100;
+      allow update: if isOwner(userId)
+        && request.resource.data.id == resource.data.id
+        && request.resource.data.displayName is string
+        && request.resource.data.displayName.size() <= 100;
+      allow delete: if isOwner(userId);
+    }
+
+    // Saved Games Collection
+    match /savedGames/{saveId} {
+      allow get: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow list: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn()
+        && isValidId(saveId)
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.saveName is string
+        && request.resource.data.saveName.size() <= 128
+        && request.resource.data.turn is number
+        && request.resource.data.stateJson is string
+        && request.resource.data.stateJson.size() <= 900000;
+      allow update: if isSignedIn()
+        && resource.data.userId == request.auth.uid
+        && request.resource.data.userId == resource.data.userId
+        && request.resource.data.saveName is string
+        && request.resource.data.saveName.size() <= 128
+        && request.resource.data.turn is number
+        && request.resource.data.stateJson is string
+        && request.resource.data.stateJson.size() <= 900000;
+      allow delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+    }
+
+    // Leaderboard Collection
+    match /leaderboard/{entryId} {
+      allow read: if true;
+      allow create: if isSignedIn()
+        && isValidId(entryId)
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.commanderName is string
+        && request.resource.data.commanderName.size() <= 100
+        && request.resource.data.turnsSurvived is number
+        && request.resource.data.score is number;
+      allow update, delete: if false;
+    }
+  }
+}

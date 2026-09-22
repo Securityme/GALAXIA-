@@ -1,0 +1,201 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-space: #050711;
+    --bg-cockpit: #080c1d;
+    --bg-panel: #0c1228;
+    --bg-card: #0f1733;
+    
+    /* Iridescent Sci-Fi Spectrum (Diamond, Petrol, Sapphire, Emerald, Amethyst, Ruby/Rose) */
+    --neon-diamond: #e0f2fe;
+    --neon-sapphire: #38bdf8;
+    --neon-purple: #c084fc;
+    --neon-rose: #f43f5e;
+    --neon-emerald: #10b981;
+    --neon-amber: #f59e0b;
+    --neon-petrol: #059669;
+    
+    --border-subtle: rgba(168, 85, 247, 0.2);
+  }
+
+  /* Iridescent Diamond & Petrol Mode (Default Refraction) */
+  html[data-theme="iridescent-diamond"],
+  .theme-iridescent-diamond {
+    --bg-space: #040713;
+    --bg-cockpit: #070d22;
+    --bg-panel: #0b1434;
+    --bg-card: #0f1b44;
+    --neon-diamond: #f0f9ff;
+    --neon-sapphire: #60a5fa;
+    --neon-purple: #d8b4fe;
+    --neon-rose: #fb7185;
+    --neon-emerald: #34d399;
+    --neon-amber: #fbbf24;
+    --border-subtle: rgba(192, 132, 252, 0.25);
+  }
+
+  /* Tactical Light Mode - Clean, high-contrast Sci-Fi Command Center */
+  html[data-theme="tactical-light"],
+  .theme-tactical-light {
+    --bg-space: #f1f5f9;
+    --bg-cockpit: #ffffff;
+    --bg-panel: #f8fafc;
+    --bg-card: #ffffff;
+    --neon-diamond: #0f172a;
+    --neon-sapphire: #0284c7;
+    --neon-purple: #9333ea;
+    --neon-rose: #e11d48;
+    --neon-emerald: #059669;
+    --neon-amber: #d97706;
+    --border-subtle: rgba(147, 51, 234, 0.25);
+  }
+
+  /* Amber Military Alert Mode */
+  html[data-theme="amber-military"],
+  .theme-amber-military {
+    --bg-space: #0f0a03;
+    --bg-cockpit: #1a1205;
+    --bg-panel: #261908;
+    --bg-card: #33220a;
+    --neon-diamond: #fef3c7;
+    --neon-sapphire: #38bdf8;
+    --neon-purple: #c084fc;
+    --neon-rose: #ef4444;
+    --neon-emerald: #22c55e;
+    --neon-amber: #ff8800;
+    --border-subtle: rgba(255, 183, 0, 0.25);
+  }
+
+  /* Emerald Matrix Biosphere Mode */
+  html[data-theme="emerald-matrix"],
+  .theme-emerald-matrix {
+    --bg-space: #020c08;
+    --bg-cockpit: #041710;
+    --bg-panel: #072418;
+    --bg-card: #0a3020;
+    --neon-diamond: #d1fae5;
+    --neon-sapphire: #38bdf8;
+    --neon-purple: #c084fc;
+    --neon-rose: #f43f5e;
+    --neon-emerald: #10b981;
+    --neon-amber: #eab308;
+    --border-subtle: rgba(0, 255, 136, 0.25);
+  }
+
+  /* Deep Void Stealth Monochrome */
+  html[data-theme="void-monochrome"],
+  .theme-void-monochrome {
+    --bg-space: #020408;
+    --bg-cockpit: #090e17;
+    --bg-panel: #111827;
+    --bg-card: #1f2937;
+    --neon-diamond: #e2e8f0;
+    --neon-sapphire: #94a3b8;
+    --neon-purple: #a1a1aa;
+    --neon-rose: #f87171;
+    --neon-emerald: #cbd5e1;
+    --neon-amber: #cbd5e1;
+    --border-subtle: rgba(148, 163, 184, 0.25);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: var(--bg-space);
+    color: #e2e8f0;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    overflow-x: hidden;
+    min-height: 100vh;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    padding-left: env(safe-area-inset-left, 0px);
+    padding-right: env(safe-area-inset-right, 0px);
+  }
+
+  html[data-theme="tactical-light"] body,
+  .theme-tactical-light body {
+    background-color: #eef2f7;
+    color: #0f172a;
+  }
+}
+
+/* Iridescent Petrol & Diamond Background Mesh */
+.bg-petrol-mesh {
+  background-image: 
+    radial-gradient(at 10% 20%, rgba(168, 85, 247, 0.08) 0px, transparent 50%),
+    radial-gradient(at 90% 10%, rgba(56, 189, 248, 0.08) 0px, transparent 50%),
+    radial-gradient(at 50% 90%, rgba(16, 185, 129, 0.06) 0px, transparent 50%),
+    radial-gradient(at 80% 80%, rgba(244, 63, 94, 0.06) 0px, transparent 50%);
+}
+
+.bg-cockpit-grid {
+  background-image: 
+    linear-gradient(to right, rgba(168, 85, 247, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(56, 189, 248, 0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* Glassmorphism without flicker */
+.glass-cockpit-card {
+  background: rgba(8, 14, 34, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(168, 85, 247, 0.25);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+}
+
+.glass-pill {
+  background: rgba(13, 22, 50, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(192, 132, 252, 0.2);
+}
+
+/* Iridescent Neon Borders */
+.border-neon-diamond {
+  border-color: rgba(224, 242, 254, 0.5);
+  box-shadow: 0 0 12px rgba(224, 242, 254, 0.2);
+}
+
+.border-neon-purple {
+  border-color: rgba(192, 132, 252, 0.5);
+  box-shadow: 0 0 12px rgba(192, 132, 252, 0.2);
+}
+
+.border-neon-sapphire {
+  border-color: rgba(56, 189, 248, 0.5);
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.2);
+}
+
+.border-neon-rose {
+  border-color: rgba(244, 63, 94, 0.5);
+  box-shadow: 0 0 12px rgba(244, 63, 94, 0.2);
+}
+
+/* Mobile & iPhone 15 Touch Ergonomics */
+@media (max-width: 640px) {
+  button, a {
+    touch-action: manipulation;
+  }
+}
+
+/* Custom Sci-Fi Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #050711;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(168, 85, 247, 0.3);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(56, 189, 248, 0.6);
+}
